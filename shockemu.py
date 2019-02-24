@@ -68,7 +68,7 @@ with file('mapKeys.h', 'w') as fp:
 	{stick}X /= {decay};
 	{stick}Y /= {decay};
 	if(fabs({stick}X) > {deadZone} || fabs({stick}Y) > {deadZone}) {{
-		NSLog(@"Still decaying... %f %f", {stick}X, {stick}Y);
+		// NSLog(@"Still decaying... %f %f", {stick}X, {stick}Y);
 		[self decayKick];
 	}} else
 		{stick}X = {stick}Y = 0;

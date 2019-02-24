@@ -23,45 +23,45 @@ typedef struct {
 } PSReport;
 
 IOHIDManagerRef IOHIDManagerCreate( CFAllocatorRef allocator, IOOptionBits options) {
-	printf("IOHIDManagerCreate\n");
+	// printf("IOHIDManagerCreate\n");
 	return (IOHIDManagerRef) 0xDEADBEEF;
 }
 
 IOReturn IOHIDManagerOpen( IOHIDManagerRef manager, IOOptionBits options) {
-	printf("IOHIDManagerOpen\n");
+	// printf("IOHIDManagerOpen\n");
 	return kIOReturnSuccess;
 }
 
 IOReturn IOHIDManagerClose( IOHIDManagerRef manager, IOOptionBits options) {
-	printf("IOHIDManagerClose\n");
+	// printf("IOHIDManagerClose\n");
 	return kIOReturnSuccess;
 }
 
 CFSetRef IOHIDManagerCopyDevices( IOHIDManagerRef manager) {
 	IOHIDDeviceRef dev = (IOHIDDeviceRef) 0xDEADBEEF;
 	IOHIDDeviceRef devs[1] = {dev};
-	printf("IOHIDManagerCopyDevices\n");
+	// printf("IOHIDManagerCopyDevices\n");
 	return CFSetCreate(NULL, (const void **) devs, 1, NULL);
 }
 
 void IOHIDManagerRegisterDeviceMatchingCallback( IOHIDManagerRef manager, IOHIDDeviceCallback callback, void *context) {
-	printf("IOHIDManagerRegisterDeviceMatchingCallback\n");
+	// printf("IOHIDManagerRegisterDeviceMatchingCallback\n");
 }
 
 void IOHIDManagerRegisterDeviceRemovalCallback( IOHIDManagerRef manager, IOHIDDeviceCallback callback, void *context) {
-	printf("IOHIDManagerRegisterDeviceMatchingCallback\n");
+	// printf("IOHIDManagerRegisterDeviceMatchingCallback\n");
 }
 
 void IOHIDManagerSetDeviceMatchingMultiple( IOHIDManagerRef manager, CFArrayRef multiple) {
-	printf("IOHIDManagerSetDeviceMatchingMultiple\n");
+	// printf("IOHIDManagerSetDeviceMatchingMultiple\n");
 }
 
 void IOHIDManagerUnscheduleFromRunLoop( IOHIDManagerRef manager, CFRunLoopRef runLoop, CFStringRef runLoopMode) {
-	printf("IOHIDManagerUnscheduleFromRunLoop\n");
+	// printf("IOHIDManagerUnscheduleFromRunLoop\n");
 }
 
 IOReturn IOHIDDeviceOpen( IOHIDDeviceRef device, IOOptionBits options) {
-	printf("IOHIDDeviceOpen %08x\n", (unsigned int) device);
+	// printf("IOHIDDeviceOpen %08x\n", (unsigned int) device);
 	return kIOReturnSuccess;
 }
 
@@ -70,7 +70,7 @@ CFNumberRef makeUShort(unsigned short value) {
 }
 
 CFTypeRef IOHIDDeviceGetProperty( IOHIDDeviceRef device, CFStringRef key) {
-	printf("IOHIDDeviceGetProperty('%s')\n", CFStringGetCStringPtr(key, kCFStringEncodingMacRoman));
+	// printf("IOHIDDeviceGetProperty('%s')\n", CFStringGetCStringPtr(key, kCFStringEncodingMacRoman));
 	if(CFStringCompare(key, CFSTR("VendorID"), 0) == 0) {
 		return makeUShort(0x54c);
 	} else if(CFStringCompare(key, CFSTR("ProductID"), 0) == 0) {
@@ -84,7 +84,7 @@ CFTypeRef IOHIDDeviceGetProperty( IOHIDDeviceRef device, CFStringRef key) {
 }
 
 IOReturn IOHIDDeviceGetReport( IOHIDDeviceRef device, IOHIDReportType reportType, CFIndex reportID, uint8_t *report, CFIndex *pReportLength) {
-	printf("IOHIDDeviceGetReport(0x%x, %i)\n", (int) reportID, pReportLength == NULL ? 0 : (int) *pReportLength);
+	// printf("IOHIDDeviceGetReport(0x%x, %i)\n", (int) reportID, pReportLength == NULL ? 0 : (int) *pReportLength);
 	if(reportID == 0x12) {
 		uint8_t report12[] = {0x12, 0x8B, 0x09, 0x07, 0x6D, 0x66, 0x1C, 0x08, 0x25, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 		assert(pReportLength != NULL && *pReportLength >= sizeof(report12));
@@ -102,7 +102,7 @@ IOReturn IOHIDDeviceGetReport( IOHIDDeviceRef device, IOHIDReportType reportType
 }
 
 IOReturn IOHIDDeviceSetReport( IOHIDDeviceRef device, IOHIDReportType reportType, CFIndex reportID, const uint8_t *report, CFIndex reportLength) {
-	printf("IOHIDDeviceSetReport\n");
+	// printf("IOHIDDeviceSetReport\n");
 	return kIOReturnSuccess;
 }
 
@@ -247,18 +247,18 @@ static HIDRunner *hid;
 }
 
 - (void)keyDown:(NSEvent *)event {
-	//NSLog(@"down %i", [event keyCode]);
+	// NSLog(@"down %i", [event keyCode]);
 	hid->keys[[event keyCode]] = true;
 	[hid kick];
 }
 - (void)keyUp:(NSEvent *)event {
-	//NSLog(@"up %i", [event keyCode]);
+	// NSLog(@"up %i", [event keyCode]);
 	hid->keys[[event keyCode]] = false;
 	[hid kick];
 }
 
 - (void)mouseMoved:(NSEvent *)event {
-	NSLog(@"mouseMoved");
+	// NSLog(@"mouseMoved");
 
 	NSPoint mouse = [event locationInWindow];
 	CFAbsoluteTime curtime = CFAbsoluteTimeGetCurrent();
@@ -266,8 +266,8 @@ static HIDRunner *hid;
 	float velY = (mouse.y - hid->lastMouse.y) / (curtime - hid->lastMouseTime);
 	hid->mouseAccelX = (velX - hid->mouseVelX) / (curtime - hid->lastMouseTime);
 	hid->mouseAccelY = (velY - hid->mouseVelY) / (curtime - hid->lastMouseTime);
-	NSLog(@"vel %f %f", velX, velY);
-	NSLog(@"accel %f %f", hid->mouseAccelX, hid->mouseAccelY);
+	// NSLog(@"vel %f %f", velX, velY);
+	// NSLog(@"accel %f %f", hid->mouseAccelX, hid->mouseAccelY);
 	hid->mouseVelX = velX;
 	hid->mouseVelY = velY;
 	hid->lastMouseTime = curtime;
@@ -296,15 +296,15 @@ static HIDRunner *hid;
 @end
 
 void IOHIDManagerScheduleWithRunLoop( IOHIDManagerRef manager, CFRunLoopRef runLoop, CFStringRef runLoopMode) {
-	printf("IOHIDManagerScheduleWithRunLoop\n");
+	// printf("IOHIDManagerScheduleWithRunLoop\n");
 	[[HIDRunner alloc] initWithRunLoop:runLoop andMode:runLoopMode];
 }
 
 void IOHIDDeviceScheduleWithRunLoop( IOHIDDeviceRef device, CFRunLoopRef runLoop, CFStringRef runLoopMode) {
-	printf("IOHIDDeviceScheduleWithRunLoop\n");
+	// printf("IOHIDDeviceScheduleWithRunLoop\n");
 }
 
 void IOHIDDeviceRegisterInputReportCallback( IOHIDDeviceRef device, uint8_t *report, CFIndex reportLength, IOHIDReportCallback callback, void *context) {
-	printf("IOHIDDeviceRegisterInputReportCallback\n");
+	// printf("IOHIDDeviceRegisterInputReportCallback\n");
 	[hid registerCallback:callback withContext:context andReport:report withLength:reportLength];
 }
