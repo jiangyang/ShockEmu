@@ -152,11 +152,11 @@ static HIDRunner *hid;
 		id cls = NSClassFromString(@"HIDRunner");
 		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (keyDown:));
 		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (keyUp:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseMoved:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseDown:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseUp:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (rightMouseDown:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (rightMouseUp:));
+		// SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseMoved:));
+		// SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseDown:));
+		// SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseUp:));
+		// SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (rightMouseDown:));
+		// SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (rightMouseUp:));
 	});
 }
 - (id)initWithRunLoop:(CFRunLoopRef)_runLoop andMode:(CFStringRef)_mode {
@@ -243,7 +243,52 @@ static HIDRunner *hid;
 
 #define DOWN(key) keys[key]
 - (void)mapKeys {
-#include "mapKeys.h"
+    // letters: a=0, b=11, c=8, d=2, e=14, f=3, g=5, h=4, i=34, j=38, k=40, l=37, m=46,
+    // letters: n=45, o=31, p=35, q=12, r=15, s=1, t=17, u=32, v=9, w=13, x=7, y=16, z=6
+    // nums: 0=29, 1=18, 2=19, 3=20, 4=21, 5=23, 6=22, 7=26, 8=28, 9=25
+    // space=49
+    // enter=36
+    // control=59
+    // option=58
+    // command=55 
+    // up=126
+    // down=125
+    // left=123
+    // right=124
+    // shift=56
+    // capslock=57
+    // tab=48
+    // backtick=50
+    // comma=43
+    // period=47
+    // slash=44
+    // backslash=42
+    // delete=51
+    // escape=53
+    PS = DOWN(35);
+    options = DOWN(12);
+    touchpad = DOWN(17);
+
+    triangle = DOWN(32);
+    X = DOWN(40);
+    square = DOWN(38);
+    O = DOWN(34);
+
+    L1 = DOWN(4);
+    R1 = DOWN(37);
+    L2 = DOWN(16);
+    R2 = DOWN(31);
+
+    leftX = leftY = 0;
+    if(DOWN(1)) leftY += 1;
+    if(DOWN(13)) leftY -= 1;
+    if(DOWN(0)) leftX -= 1;
+    if(DOWN(2)) leftX += 1;
+
+    dpadUp = DOWN(126);
+    dpadDown = DOWN(125);
+    dpadLeft = DOWN(123);
+    dpadRight = DOWN(124);
 }
 
 - (void)keyDown:(NSEvent *)event {
